@@ -1,0 +1,202 @@
+<div class="flex flex-col md:flex-row">
+  <!-- Main content area -->
+  <div class="flex-grow p-0">
+    <!-- Notifications -->
+    <div class="bg-gray-100 p-4 rounded-lg mb-6">
+      <h2 class="font-bold mb-2">Hola de nuevo! / Notificaciones</h2>
+      <ul class="list-disc list-inside">
+        <li>Hola Monica, podrías subir las fotos que tome, gracias</li>
+        <li>Hola buenas tardes quedo al pendiente del reporte de la semana pasada, gracias.</li>
+      </ul>
+    </div>
+
+    <!-- File upload -->
+    <div class="bg-gray-100 p-4 rounded-lg mb-6">
+      <h2 class="font-bold mb-2">Crear Proyecto Nuevo</h2>
+      <div class="flex items-center justify-between border-2 border-dashed border-gray-300 p-4 rounded-lg">
+        <span class="text-gray-500">Nombre del Proyecto</span>
+        <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded-lg flex items-center" onclick="openModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+          </svg>
+          Crear
+        </button>
+      </div>
+    </div>
+    
+    <!-- Modal -->
+    <div id="projectModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden">
+      <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
+        <h2 class="font-bold mb-4">Nuevo Proyecto</h2>
+        <div class="mb-4">
+          <label class="block text-gray-700">Nombre del Proyecto</label>
+          <input type="text" class="w-full p-2 border border-gray-300 rounded-lg" [(ngModel)]="projectName" />
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700">Fecha de Creación</label>
+          <input type="text" class="w-full p-2 border border-gray-300 rounded-lg" value="<!-- Insert current date here -->" readonly />
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700">Descripción</label>
+          <textarea class="w-full p-2 border border-gray-300 rounded-lg" [(ngModel)]="projectDescription"></textarea>
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700">Fecha de Finalización</label>
+          <input type="date" class="w-full p-2 border border-gray-300 rounded-lg" [(ngModel)]="projectEndDate" />
+        </div>
+        <button class="bg-blue-500 text-white py-2 px-4 rounded-lg" (click)="createProject(projectName, projectDescription, projectEndDate)">Crear</button>
+        <button class="bg-gray-500 text-white py-2 px-4 rounded-lg ml-2" (click)="closeCreateProjectPopup()">Cancelar</button>
+      </div>
+    </div>
+    
+    <script>
+      function openModal() {
+        document.getElementById('projectModal').classList.remove('hidden');
+      }
+    </script>
+
+    <!-- Reports table -->
+    <div class="overflow-x-auto">
+      <table class="w-full bg-white shadow-md rounded-lg overflow-hidden">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="py-3 px-4 text-left">Proyecto</th>
+            <th class="py-3 px-4 text-left">Creado</th>
+            <th class="py-3 px-4 text-left">Estatus</th>
+            <th class="py-3 px-4 text-left">Reporte</th>
+            <th class="py-3 px-4 text-left">Archivo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let project of projects" class="border-b">
+            <td class="py-3 px-4">{{ project.name }}</td>
+            <td class="py-3 px-4">{{ project.createdDate }}</td>
+            <td class="py-3 px-4">{{ project.status }}</td>
+            <td class="py-3 px-4">{{ project.report }}</td>
+            <td class="py-3 px-4">
+              <div class="flex space-x-2">
+                <button (click)="openReportPopup(project)" class="text-red-500 hover:text-red-900">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+                <button (click)="openProjectPopup(project)" class="text-red-500 hover:text-red-900">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Right sidebar -->
+  <div class="md:w-100 p-5 bg-gray-100 ml-4">
+    <h2 class="font-bold mb-4">Información</h2>
+    <div class="grid grid-cols-2 gap-4 mb-6">
+      <div class="bg-white p-4 rounded-lg shadow">
+        <h3 class="font-bold mb-2">Reportes Pendientes</h3>
+        <p class="text-3xl font-bold text-red-500">2</p>
+      </div>
+      <div class="bg-white p-4 rounded-lg shadow">
+        <h3 class="font-bold mb-2">Reportes Por verificación</h3>
+        <p class="text-3xl font-bold text-red-500">4</p>
+      </div>
+      <div class="bg-white p-4 rounded-lg shadow">
+        <h3 class="font-bold mb-2">Proyectos Faltantes</h3>
+        <p class="text-3xl font-bold text-red-500">1</p>
+      </div>
+      <div class="bg-white p-4 rounded-lg shadow">
+        <h3 class="font-bold mb-2">Reportes no enviados</h3>
+        <p class="text-3xl font-bold text-red-500">7</p>
+      </div>
+    </div>
+    <div class="bg-white p-4 rounded-lg shadow mb-6">
+      <h3 class="font-bold mb-2">Generar reporte automático</h3>
+      <div class="flex items-center justify-between mb-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+        </svg>
+        <button class="bg-gray-200 text-gray-700 py-1 px-3 rounded-lg text-sm">Subir</button>
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-2.5">
+        <div class="bg-blue-600 h-2.5 rounded-full" style="width: 45%"></div>
+      </div>
+      <button class="mt-4 w-full bg-gray-200 text-gray-700 py-2 px-4 rounded-lg flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+        Descargar Reporte23424.pdf
+      </button>
+    </div>
+
+    <div *ngIf="showProjectPopup" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="project-modal">
+      <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+        <div class="mt-3">
+          <h3 class="text-lg font-medium text-gray-900">{{ selectedProject?.name }}</h3>
+          <p class="text-sm text-gray-500">{{ selectedProject?.createdDate }}</p>
+          <div class="mt-2 px-7 py-3">
+            <h4 class="font-bold mb-2">Imagenes Cargadas</h4>
+            <div class="grid grid-cols-5 gap-2">
+              <!-- Add image placeholders here -->
+              <div *ngFor="let i of [1,2,3,4,5]" class="bg-gray-200 h-12 w-12 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="items-center px-4 py-3">
+            <button (click)="uploadImages()" class="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300">
+              Subir Imagenes
+            </button>
+          </div>
+          <div class="items-center px-4 py-3">
+            <button (click)="closeProjectPopup()" class="px-4 py-2 bg-gray-200 text-gray-800 text-base font-medium rounded-md w-full shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300">
+              Cerrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Report Popup -->
+  <div *ngIf="showReportPopup" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="report-modal">
+    <div class="relative top-20 mx-auto p-5 border w-3/4 shadow-lg rounded-md bg-white">
+      <div class="mt-3">
+        <h3 class="text-lg font-medium text-gray-900">Reporte de Cuadrilla de Telecomunicaciones</h3>
+        <p class="text-sm text-gray-500">Fecha de Creación: {{ selectedProject?.createdDate }}</p>
+        <div class="mt-2 px-7 py-3">
+          <h4 class="font-bold mb-2">1. Introducción</h4>
+          <p>El propósito de este reporte es documentar las actividades llevadas a cabo por la cuadrilla de telecomunicaciones durante el periodo comprendido entre [fecha de inicio] y [fecha de finalización]. Se incluirán detalles sobre las tareas realizadas, los problemas enfrentados, las soluciones aplicadas y las recomendaciones para futuras intervenciones.</p>
+          
+          <h4 class="font-bold mt-4 mb-2">2. Composición de la Cuadrilla</h4>
+          <ul class="list-disc list-inside">
+            <li>Nombre del integrante 1 - Cargo</li>
+            <li>Nombre del integrante 2 - Cargo</li>
+            <li>Nombre del integrante 3 - Cargo</li>
+            <li>Nombre del integrante 4 - Cargo</li>
+          </ul>
+        </div>
+        <div class="flex justify-end space-x-2 px-4 py-3">
+          <button class="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300">
+            Compartir
+          </button>
+          <button class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-300">
+            Editar
+          </button>
+          <button class="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300">
+            Descargar
+          </button>
+          <button (click)="closeReportPopup()" class="px-4 py-2 bg-gray-200 text-gray-800 text-base font-medium rounded-md shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300">
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
