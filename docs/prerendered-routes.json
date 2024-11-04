@@ -1,0 +1,9 @@
+{
+  "routes": [
+    "/",
+    "/admin",
+    "/dashboard",
+    "/profile",
+    "/tables"
+  ]
+}
