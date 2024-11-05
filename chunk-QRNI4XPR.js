@@ -1,1 +1,0 @@
-import{Pa as i,W as n,bb as s}from"./chunk-AAGVWEFL.js";var o=class t{static \u0275fac=function(e){return new(e||t)};static \u0275cmp=n({type:t,selectors:[["app-profile"]],standalone:!0,features:[s],decls:1,vars:0,consts:[[1,"mb-12","grid","gap-y-10","gap-x-6","md:grid-cols-2","xl:grid-cols-4"]],template:function(e,r){e&1&&i(0,"div",0)}})};export{o as default};
