@@ -1,3 +1,104 @@
-<div class="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
+<div class="container mx-auto p-6 bg-white-100">
+  <h1 class="text-3xl font-bold mb-6 text-red-600">Contactar Clientes</h1>
+  <div class="mb-12">
+    <div class="flex justify-end mb-6">
+      <button (click)="openClienteModal()" class="bg-red-500 text-white px-6 py-2 rounded shadow hover:bg-red-600 transition duration-300">Agregar Cliente</button>
+      <button (click)="openProveedorModal()" class="bg-red-500 text-white px-6 py-2 rounded shadow ml-4 hover:bg-red-600 transition duration-300">Agregar Proveedor</button>
+    </div>
+    <table class="min-w-full bg-white shadow rounded-lg overflow-hidden">
+      <thead class="bg-gray-200">
+        <tr>
+          <th class="py-3 px-4 border-b text-left">Rol</th>
+          <th class="py-3 px-4 border-b text-left">Empresa</th>
+          <th class="py-3 px-4 border-b text-left">Número</th>
+          <th class="py-3 px-4 border-b text-left">Correo</th>
+          <th class="py-3 px-4 border-b text-left">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cliente of clientes" class="hover:bg-gray-100 transition duration-300">
+          <td class="py-3 px-4 border-b">{{ cliente.rol }}</td>
+          <td class="py-3 px-4 border-b">{{ cliente.empresa }}</td>
+          <td class="py-3 px-4 border-b">{{ cliente.numero }}</td>
+          <td class="py-3 px-4 border-b">{{ cliente.correo }}</td>
+          <td class="py-3 px-4 border-b">
+            <button (click)="openClienteModal(cliente)" class="bg-red-500 text-white px-4 py-2 rounded shadow hover:bg-red-600 transition duration-300">Editar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  
+
+  <h1 class="text-3xl font-bold mb-6 text-red-600">Proveedores</h1>
+  <div class="mb-12">
+    <table class="min-w-full bg-white shadow rounded-lg overflow-hidden">
+      <thead class="bg-gray-200">
+        <tr>
+          <th class="py-3 px-4 border-b text-left">Nombre</th>
+          <th class="py-3 px-4 border-b text-left">Número</th>
+          <th class="py-3 px-4 border-b text-left">Correo</th>
+          <th class="py-3 px-4 border-b text-left">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let proveedor of proveedores" class="hover:bg-gray-100 transition duration-300">
+          <td class="py-3 px-4 border-b">{{ proveedor.nombre }}</td>
+          <td class="py-3 px-4 border-b">{{ proveedor.numero }}</td>
+          <td class="py-3 px-4 border-b">{{ proveedor.correo }}</td>
+          <td class="py-3 px-4 border-b">
+            <button (click)="openProveedorModal(proveedor)" class="bg-red-500 text-white px-4 py-2 rounded shadow hover:bg-red-600 transition duration-300">Editar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="clienteModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" [ngClass]="{'block': showClienteModal, 'hidden': !showClienteModal}">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
+    <span class="close cursor-pointer float-right text-gray-600" (click)="closeClienteModal()">&times;</span>
+    <h2 class="text-2xl mb-4">{{ editingCliente ? 'Editar Cliente' : 'Agregar Cliente' }}</h2>
+    <form (ngSubmit)="saveCliente()">
+      <div class="mb-4">
+        <label for="rol" class="block text-gray-700">Rol:</label>
+        <input type="text" id="rol" [(ngModel)]="currentCliente.rol" name="rol" class="w-full px-3 py-2 border rounded" required>
+      </div>
+      <div class="mb-4">
+        <label for="empresa" class="block text-gray-700">Empresa:</label>
+        <input type="text" id="empresa" [(ngModel)]="currentCliente.empresa" name="empresa" class="w-full px-3 py-2 border rounded" required>
+      </div>
+      <div class="mb-4">
+        <label for="numero" class="block text-gray-700">Número:</label>
+        <input type="text" id="numero" [(ngModel)]="currentCliente.numero" name="numero" class="w-full px-3 py-2 border rounded" required>
+      </div>
+      <div class="mb-4">
+        <label for="correo" class="block text-gray-700">Correo:</label>
+        <input type="email" id="correo" [(ngModel)]="currentCliente.correo" name="correo" class="w-full px-3 py-2 border rounded" required>
+      </div>
+      <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded shadow hover:bg-red-600 transition duration-300">{{ editingCliente ? 'Guardar Cambios' : 'Agregar Cliente' }}</button>
+    </form>
+  </div>
+</div>
+
+<div id="proveedorModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" [ngClass]="{'block': showProveedorModal, 'hidden': !showProveedorModal}">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
+    <span class="close cursor-pointer float-right text-gray-600" (click)="closeProveedorModal()">&times;</span>
+    <h2 class="text-2xl mb-4">{{ editingProveedor ? 'Editar Proveedor' : 'Agregar Proveedor' }}</h2>
+    <form (ngSubmit)="saveProveedor()">
+      <div class="mb-4">
+        <label for="nombre" class="block text-gray-700">Nombre:</label>
+        <input type="text" id="nombre" [(ngModel)]="currentProveedor.nombre" name="nombre" class="w-full px-3 py-2 border rounded" required>
+      </div>
+      <div class="mb-4">
+        <label for="numero" class="block text-gray-700">Número:</label>
+        <input type="text" id="numero" [(ngModel)]="currentProveedor.numero" name="numero" class="w-full px-3 py-2 border rounded" required>
+      </div>
+      <div class="mb-4">
+        <label for="correo" class="block text-gray-700">Correo:</label>
+        <input type="email" id="correo" [(ngModel)]="currentProveedor.correo" name="correo" class="w-full px-3 py-2 border rounded" required>
+      </div>
+      <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded shadow hover:bg-red-600 transition duration-300">{{ editingProveedor ? 'Guardar Cambios' : 'Agregar Proveedor' }}</button>
+    </form>
+  </div>
+</div>
