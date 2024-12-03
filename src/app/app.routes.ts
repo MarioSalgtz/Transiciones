@@ -6,30 +6,34 @@ export const routes: Routes = [
         loadComponent: () => import('./shared/components/layout/layout.component'),
         children: [
             {
-                path : 'dashboard',
+                path: 'dashboard',
                 loadComponent: () => import('./business/dashboard/dashboard.component')
             },
             {
-                path : 'profile',
+                path: 'profile',
                 loadComponent: () => import('./business/profile/profile.component')
             },
             {
-                path : 'tables',
+                path: 'tables',
                 loadComponent: () => import('./business/tables/tables.component')
             },
             {
-                path : 'admin',
+                path: 'admin',
                 loadComponent: () => import('./business/admin/admin.component').then(m => m.AdminComponent)
             },
             {
-                path : '',
+                path: '',
                 redirectTo: 'dashboard',
                 pathMatch: 'full'
             }
         ]
     },
     {
-        path : '**',
+        path: 'login',
+        loadComponent: () => import('./business/login/login.component').then(m => m.LoginComponent)
+    },
+    {
+        path: '**',
         redirectTo: 'dashboard',
     }
 ];
