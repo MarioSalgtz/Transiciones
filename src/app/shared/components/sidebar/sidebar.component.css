@@ -1,0 +1,12 @@
+/* Estilos para mostrar/ocultar el sidebar en dispositivos móviles */
+#menu-button + aside {
+  display: none;
+}
+
+#menu-button.active + aside {
+  display: block;
+}
+
+aside {
+  z-index: 10; /* Asegúrate de que el sidebar esté por encima del contenido */
+}

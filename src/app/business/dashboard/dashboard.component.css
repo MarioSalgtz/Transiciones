@@ -1,0 +1,7 @@
+.ml-64 {
+  margin-left: 16rem; /* 64 * 0.25rem = 16rem, que es el ancho del sidebar */
+}
+
+.p-4 {
+  padding: 1rem;
+}

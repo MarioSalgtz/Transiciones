@@ -14,17 +14,33 @@ interface StockItem {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
 })
 export default class DashboardComponent {
   tableData = [
-    { description: 'Instalación de Antenas 5G', price: '$1500', progress: '40%' },
+    {
+      description: 'Instalación de Antenas 5G',
+      price: '$1500',
+      progress: '40%',
+    },
     { description: 'Mantenimiento de Redes', price: '$800', progress: '60%' },
-    { description: 'Actualización de Software', price: '$1200', progress: '50%' },
-    { description: 'Expansión de Fibra Óptica', price: '$2000', progress: '30%' },
-    { description: 'Consultoría en Telecomunicaciones', price: '$1000', progress: '80%' },
+    {
+      description: 'Actualización de Software',
+      price: '$1200',
+      progress: '50%',
+    },
+    {
+      description: 'Expansión de Fibra Óptica',
+      price: '$2000',
+      progress: '30%',
+    },
+    {
+      description: 'Consultoría en Telecomunicaciones',
+      price: '$1000',
+      progress: '80%',
+    },
   ];
-  
+
   projects = [
     { name: 'Project A - Telecom Infrastructure', completed: false },
     { name: 'Project B - 5G Network Expansion', completed: false },
@@ -37,7 +53,7 @@ export default class DashboardComponent {
   tipoSuelo: string = 'blando';
   zona: string = 'residencial';
   cotizacion: number | null = null;
-  cotizaciones: { fecha: string, monto: number }[] = [];
+  cotizaciones: { fecha: string; monto: number }[] = [];
 
   isStockModalOpen = false;
   isAddItemModalOpen = false;
@@ -58,10 +74,12 @@ export default class DashboardComponent {
     { name: 'Cinta Métrica de Fibra', quantity: 15, unitValue: 25 },
     { name: 'Identificador de Fibra Óptica', quantity: 5, unitValue: 300 },
     { name: 'Limpiadores de Fibra Óptica', quantity: 50, unitValue: 15 },
-    { name: 'Capuchones de Protección para Fibras', quantity: 200, unitValue: 1 },
-
+    {
+      name: 'Capuchones de Protección para Fibras',
+      quantity: 200,
+      unitValue: 1,
+    },
   ];
-
 
   constructor(private router: Router) {}
 
@@ -166,7 +184,11 @@ export default class DashboardComponent {
   }
 
   addItem() {
-    if (this.newItem.name && this.newItem.quantity > 0 && this.newItem.unitValue > 0) {
+    if (
+      this.newItem.name &&
+      this.newItem.quantity > 0 &&
+      this.newItem.unitValue > 0
+    ) {
       this.stockItems.push({ ...this.newItem });
       this.newItem = { name: '', quantity: 0, unitValue: 0 };
       this.closeAddItemModal();
